@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Free Online CSV Viewer &amp; Editor — View, Edit &amp; Search CSV</title>
+  <meta name="description" content="100% Free Online CSV Viewer and Editor. Open, search, sort, and edit CSV, TSV, and TXT files instantly in your browser without uploading to any server.">
+  <link rel="canonical" href="https://online-csv-viewer-free.github.io/">
+  
+  <!-- Favicon & PWA -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z'/><polyline points='14 2 14 8 20 8'/></svg>" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#2563eb">
+
+  <!-- Open Graph / SEO -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Free Online CSV Viewer">
+  <meta property="og:title" content="Free Online CSV Viewer &amp; Editor — Fast, Private, In-Browser">
+  <meta property="og:description" content="Open, edit, sort, and search your CSV files instantly. 100% private — parsed locally on your device with zero server uploads.">
+  <meta property="og:url" content="https://online-csv-viewer-free.github.io/">
+
+  <!-- JSON-LD Structured Data for Google Ranking -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Free Online CSV Viewer",
+    "url": "https://online-csv-viewer-free.github.io/",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "browserRequirements": "Requires JavaScript",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "description": "Fast, private and free online CSV viewer and editor. View, search, filter, and edit CSV files directly in your browser without uploading to any remote server."
+  }
+  </script>
+
+  <link rel="stylesheet" href="styles.css">
+  <meta name="google-site-verification" content="U2FcDNZ0g3mga13EV0631n43Y_khKj3etgM9YSmBKV4" />
+</head>
+<body>
+
+  <!-- Top App Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="8" y1="13" x2="16" y2="13"></line>
+        <line x1="8" y1="17" x2="16" y2="17"></line>
+      </svg>
+      <span>Online CSV Viewer</span>
+    </div>
+
+    <div class="controls" id="table-controls" hidden>
+      <div class="file-stats">
+        <span id="stat-filename">data.csv</span>
+        <span class="badge" id="stat-rows">0 rows</span>
+      </div>
+      <div class="search-wrap">
+        <input type="search" id="search-box" placeholder="Filter rows... (Press '/' to focus)" aria-label="Search rows">
+      </div>
+      <div class="action-buttons">
+        <button class="btn btn-outline" id="export-csv">Export CSV</button>
+        <button class="btn btn-outline" id="export-json">Export JSON</button>
+        <button class="btn btn-primary" id="open-new-btn">Open New</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero / Upload Screen -->
+    <section class="hero-section" id="hero-section">
+      <div class="hero-text">
+        <h1>Free Online CSV Viewer &amp; Editor</h1>
+        <p class="subtitle">Open, view, edit, sort, and search your CSV files entirely in your browser. <strong>Zero tracking, 100% private.</strong></p>
+      </div>
+
+      <div class="dropzone" id="dropzone">
+        <svg class="drop-icon" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="17 8 12 3 7 8"/>
+          <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+        <p class="drop-title">Drop your CSV, TSV, or TXT file here</p>
+        <p class="drop-sub">Parsed locally on your machine. Your file never touches any server.</p>
+        <label class="btn btn-primary" for="file-input">Browse File</label>
+        <input type="file" id="file-input" accept=".csv,.tsv,.tab,.txt,text/csv,text/plain" hidden>
+      </div>
+    </section>
+
+    <!-- Table Screen -->
+    <section class="table-section" id="table-section" hidden>
+      <div class="table-container">
+        <table id="data-table">
+          <thead id="table-head"></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+      <p class="empty-search" id="empty-search-msg" hidden>No matching records found.</p>
+    </section>
+
+    <!-- SEO Rich Text & FAQ Area for Google Crawler -->
+    <article class="seo-article" id="seo-content">
+      <h2>Why use Free Online CSV Viewer?</h2>
+      <p>Most online file parsers require you to send spreadsheets to their backend servers. If your file contains sensitive business spreadsheets, customer records, or financial balance sheets, uploading to random cloud servers represents a security risk.</p>
+      <p><strong>Free Online CSV Viewer</strong> parses your data strictly in memory using browser JavaScript. You can disconnect your internet completely and the viewer will continue to work flawlessly.</p>
+
+      <h2>Key Features</h2>
+      <div class="features-grid">
+        <div class="feat-card">
+          <h3>Local &amp; Secure</h3>
+          <p>Files are parsed locally in memory. Zero bytes leave your browser or get sent to remote databases.</p>
+        </div>
+        <div class="feat-card">
+          <h3>Auto Delimiter</h3>
+          <p>Detects commas (<code>,</code>), semicolons (<code>;</code>), tabs (<code>\t</code>), and pipes (<code>|</code>) automatically.</p>
+        </div>
+        <div class="feat-card">
+          <h3>In-place Editing</h3>
+          <p>Double click or select any cell to edit data instantly, and export back as clean CSV or JSON.</p>
+        </div>
+        <div class="feat-card">
+          <h3>Fast Search &amp; Sort</h3>
+          <p>Instant full-text filtering across all columns and multi-direction header sorting.</p>
+        </div>
+      </div>
+
+      <h2>Frequently Asked Questions (FAQ)</h2>
+      <div class="faq-list">
+        <details>
+          <summary>Is my data uploaded to any server?</summary>
+          <p>No. The entire process runs client-side using JavaScript File API. You can check your browser's Network DevTools tab to verify that no network requests are sent during file operations.</p>
+        </details>
+        <details>
+          <summary>What file formats are supported?</summary>
+          <p>This viewer natively supports <code>.csv</code>, <code>.tsv</code>, <code>.tab</code>, and raw <code>.txt</code> delimited spreadsheets.</p>
+        </details>
+        <details>
+          <summary>Can I edit values inside the table?</summary>
+          <p>Yes. All cells are interactive. You can change values, filter the rows you need, and click <strong>Export CSV</strong> to save your changes locally.</p>
+        </details>
+        <details>
+          <summary>Does it work offline?</summary>
+          <p>Yes. You can install this app via the Chrome/Edge address bar (PWA) to open and inspect CSV files completely offline.</p>
+        </details>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 <strong>Free Online CSV Viewer</strong> — Fast, Secure &amp; Open Source.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
